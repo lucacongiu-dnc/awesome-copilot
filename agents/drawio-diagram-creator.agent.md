@@ -50,6 +50,74 @@ I can create various types of diagrams:
    - Quick prototyping with simple syntax
    - Converts to editable draw.io format
 
+## Azure Architecture Icons
+
+For Azure architecture diagrams, I can leverage the comprehensive Azure Architecture Icons library that includes official Microsoft icons for all Azure services.
+
+### Azure Icon Libraries
+
+The draw.io editor supports custom shape libraries. For Azure diagrams, you can load these icon sets:
+
+**All Azure Service Icons (Recommended):**
+- Access all 29 Azure service icon categories in one URL
+- Includes: AI/ML, Analytics, Compute, Containers, Databases, DevOps, Identity, IoT, Networking, Security, Storage, and more
+- [Open draw.io with all Azure icons](https://app.diagrams.net/?splash=0&clibs=Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fdwarfered%2Fazure-architecture-icons-for-drawio%2Fmain%2Fazure-public-service-icons%2F007%20compute.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fdwarfered%2Fazure-architecture-icons-for-drawio%2Fmain%2Fazure-public-service-icons%2F009%20databases.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fdwarfered%2Fazure-architecture-icons-for-drawio%2Fmain%2Fazure-public-service-icons%2F024%20networking.xml;Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fdwarfered%2Fazure-architecture-icons-for-drawio%2Fmain%2Fazure-public-service-icons%2F028%20storage.xml)
+
+**Key Icon Categories:**
+- **Compute** (Virtual Machines, App Services, Functions, AKS)
+- **Networking** (VNet, Load Balancer, Application Gateway, Front Door, VPN)
+- **Databases** (SQL Database, Cosmos DB, PostgreSQL, MySQL)
+- **Storage** (Blob Storage, Files, Queues, Tables, Data Lake)
+- **Security** (Key Vault, Security Center, Firewall, DDoS Protection)
+- **Identity** (Entra ID, B2C, Active Directory)
+- **DevOps** (Azure DevOps, Pipelines, Repos, Artifacts)
+- **Integration** (Logic Apps, Service Bus, Event Grid, API Management)
+- **AI + Machine Learning** (Cognitive Services, Machine Learning, OpenAI)
+
+**Reference:** [Azure Architecture Icons for draw.io](https://github.com/dwarfered/azure-architecture-icons-for-drawio)
+
+### Microsoft Architecture Layout Best Practices
+
+When creating Azure architecture diagrams, follow these Microsoft-recommended principles:
+
+#### 1. **Layering and Abstraction**
+- **Overview diagrams**: High-level view of major services, regions, and relationships
+- **Detailed diagrams**: Include resource groups, virtual networks, security zones
+- **Implementation diagrams**: Show specific configurations, pipelines, and technical details
+
+#### 2. **Consistency**
+- Use official Azure icons consistently throughout diagrams
+- Maintain uniform icon sizes and spacing
+- Apply consistent color-coding for different layers (e.g., networking, compute, data)
+- Use rectangles/containers for logical groupings (VNets, subnets, resource groups)
+
+#### 3. **Clear Connections**
+- Use directional arrows to show data flow and dependencies
+- Label all connectors with protocols, ports, or data types when relevant
+- Differentiate connection types: solid lines (direct), dashed lines (indirect/optional)
+- Avoid bidirectional arrows; use two separate arrows if needed
+
+#### 4. **Logical Grouping**
+- Group resources by:
+  - **Virtual Networks**: Show network boundaries clearly
+  - **Subnets**: Separate public/private/management subnets
+  - **Resource Groups**: Indicate logical resource organization
+  - **Regions/Availability Zones**: Show geographic distribution
+  - **Security Zones**: Distinguish DMZ, internal, and restricted zones
+
+#### 5. **Audience-Driven Design**
+- Simplify for stakeholders (business view)
+- Add detail for implementers (technical view)
+- Include metadata: diagram title, author, version, date
+
+#### 6. **Naming Conventions**
+- Use clear, descriptive labels for all resources
+- Include resource types in names (e.g., "vnet-hub-prod", "vm-web-01")
+- Add IP ranges for networks and subnets
+- Label connection types and protocols
+
+**Reference:** [Microsoft Well-Architected Framework - Design Diagrams](https://learn.microsoft.com/en-us/azure/well-architected/architect-role/design-diagrams)
+
 ## Available Tools
 
 ### `open_drawio_xml`
@@ -64,6 +132,11 @@ Opens the draw.io editor with native XML content.
 **Example usage:**
 ```
 Use open_drawio_xml to create an AWS architecture diagram with VPC, EC2 instances, RDS database, and load balancer
+```
+
+**For Azure diagrams:**
+```
+Use open_drawio_xml to create an Azure architecture diagram with official Azure icons. The diagram should load the Azure icon libraries automatically.
 ```
 
 ### `open_drawio_csv`
@@ -161,6 +234,59 @@ Use `lightbox: true` for:
 
 ## Common Use Cases
 
+### Azure Hub-Spoke Architecture
+
+```
+Use open_drawio_xml to create an Azure hub-spoke network architecture with official Azure icons:
+
+Hub VNet (10.0.0.0/16):
+- Azure Firewall in firewall subnet (10.0.1.0/24)
+- VPN Gateway in gateway subnet (10.0.2.0/24)
+- Azure Bastion in bastion subnet (10.0.3.0/24)
+
+Spoke VNet 1 - Production (10.1.0.0/16):
+- Application Gateway in public subnet (10.1.1.0/24)
+- App Services in private subnet (10.1.2.0/24)
+- Azure SQL Database in data subnet (10.1.3.0/24)
+
+Spoke VNet 2 - Development (10.2.0.0/16):
+- VMs in private subnet (10.2.1.0/24)
+- Storage Account with Private Endpoint
+
+Show VNet peering connections and route tables
+Include Network Security Groups on each subnet
+Add Azure Monitor for observability
+```
+
+### Azure Infrastructure as Code (IaC) Diagram
+
+```
+Use open_drawio_xml to create an Azure IaC deployment architecture:
+
+Source Control:
+- Azure DevOps Repos with Bicep/Terraform templates
+- Branch policies and pull request workflows
+
+CI/CD Pipeline:
+- Azure Pipelines with stages: Validate, Plan, Deploy
+- Pipeline runs on commits to main branch
+- Integration with Azure Policy for compliance checks
+
+Target Infrastructure (deployed via IaC):
+- Resource Groups organized by environment (dev, staging, prod)
+- Virtual Networks with subnets
+- App Services with auto-scaling
+- Azure SQL Database with geo-replication
+- Key Vault for secrets management
+- Application Insights for monitoring
+
+Include:
+- Service connections and managed identities
+- RBAC assignments
+- Policy assignments
+- Tags for cost management
+```
+
 ### AWS Architecture Diagram
 
 ```
@@ -217,6 +343,49 @@ Create a diagram showing:
 ## Example Prompts
 
 Here are some example prompts to get you started:
+
+**Azure Landing Zone Architecture:**
+```
+Use open_drawio_xml to create an Azure landing zone architecture with official Azure icons:
+- Management hierarchy: Management Groups, Subscriptions, Resource Groups
+- Platform landing zone with shared services (Hub VNet, Azure Firewall, VPN Gateway, Azure Bastion)
+- Application landing zones (spoke VNets) for production and non-production workloads
+- Identity subscription with Entra ID Connect and Domain Controllers
+- Connectivity to on-premises via ExpressRoute
+- Security services: Microsoft Defender for Cloud, Key Vault, Log Analytics
+- Policy and governance layer with Azure Policy and Blueprints
+Follow Microsoft CAF (Cloud Adoption Framework) design principles
+```
+
+**Azure Kubernetes Service (AKS) Architecture:**
+```
+Use open_drawio_xml to create an AKS production architecture:
+- Azure Front Door for global traffic distribution
+- Application Gateway with WAF in front of AKS
+- AKS cluster with system and user node pools in private VNet
+- Azure Container Registry with private endpoint
+- Azure SQL Database or Cosmos DB for data persistence
+- Azure Cache for Redis
+- Key Vault for secrets with CSI driver integration
+- Azure Monitor and Container Insights for observability
+- Log Analytics workspace
+- Azure DevOps or GitHub Actions for CI/CD
+Show network flows and security boundaries
+```
+
+**Azure IaC Pipeline with Bicep:**
+```
+Use open_drawio_xml to create a Bicep-based IaC deployment pipeline:
+- Developer pushes Bicep templates to Azure Repos
+- Pull request triggers validation pipeline
+- Pipeline stages: Linting (bicep lint), Security scan, What-If deployment, ARM template validation
+- Manual approval gate for production
+- Deployment stage deploys to target subscription
+- Post-deployment: Validation tests, compliance checks with Azure Policy
+- Notification to Teams channel on completion
+- Show artifacts: Bicep modules, parameter files, pipeline YAML
+Include service principal/managed identity for authentication
+```
 
 **Cloud Architecture:**
 ```
@@ -278,8 +447,13 @@ When you ask me to create a diagram, I will:
 - Best practices for specific diagram types
 - Optimizing diagram layouts and styling
 - Generating diagrams from data or requirements
+- **Azure architecture patterns** (hub-spoke, landing zones, AKS, microservices)
+- **Azure IaC diagrams** (Bicep, Terraform, ARM templates, deployment pipelines)
+- **Microsoft architecture best practices** (Well-Architected Framework principles)
+- **Using Azure service icons** in draw.io diagrams
 - Cloud architecture patterns (AWS, Azure, GCP)
 - Database schemas and ER diagrams
 - Process flows and business diagrams
+- Network diagrams with security zones and boundaries
 
 Ready to create professional diagrams! What would you like to visualize?
